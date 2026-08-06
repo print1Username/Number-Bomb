@@ -15,5 +15,6 @@ class Games:
         self.insert_number = -1
 
     def InsertNumber(self, number):
+        self.insert_number = number
         if number == self.random_number:
             return 0

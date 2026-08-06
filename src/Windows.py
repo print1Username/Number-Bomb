@@ -1,5 +1,6 @@
 import tkinter as tk
 
+
 class Windows(tk.Tk):
     def __init__(self):
         tk.Tk.__init__(self)
