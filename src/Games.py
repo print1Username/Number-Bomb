@@ -8,13 +8,19 @@ class Games:
         self.random_number = 0
         self.insert_number = -1
 
-    def SetNumber(self, minimum, maximum):
-        self.minimum = minimum
-        self.maximum = maximum
-        self.ResetNumber()
+        self.chance = 0
+
+    def SetNumber(self, minimum, maximum, chance):
 
         if self.minimum > self.maximum:
             raise ValueError(f"Minimum {self.minimum} must be less than maximum {self.maximum}")
+        if chance < 0:
+            raise ValueError(f"Chance {self.chance} must bigger than 0")
+
+        self.minimum = minimum
+        self.maximum = maximum
+        self.chance = chance
+        self.ResetNumber()
 
     def ResetNumber(self):
         self.random_number = random.randint(self.minimum, self.maximum)
