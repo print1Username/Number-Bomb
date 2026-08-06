@@ -52,6 +52,13 @@ class Windows(tk.Tk):
         placeholder_color = "gray"
         default_color = "black"
 
+        def validate_digit(p):
+            if p == "" or p.isdigit():
+                return True
+            return False
+
+        vcmd = (self.register(validate_digit), '%P')
+
         entry = tk.Entry(
             self,
             font=("Arial", 18, "normal"),
@@ -65,9 +72,11 @@ class Windows(tk.Tk):
             if entry.get() == placeholder:
                 entry.delete(0, tk.END)
                 entry.config(fg=default_color)
+                entry.config(validate="key", validatecommand=vcmd)
 
         def on_focus_out(event):
             if not entry.get().strip():
+                entry.config(validate="none")
                 entry.insert(0, placeholder)
                 entry.config(fg=placeholder_color)
 

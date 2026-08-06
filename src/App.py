@@ -9,10 +9,10 @@ class App:
         self.windows.LoadTitle('Number Bomb')
         self.windows.LoadContent('This is the Number Bomb game,')
 
-        self.windows.LoadInsert('minimum')
+        self.windows.LoadInsert('Min')
+        self.windows.LoadInsert('Max')
 
         self.windows.LoadButton('Start')
 
         # Window loop
         self.windows.mainloop()
-
