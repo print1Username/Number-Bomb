@@ -40,7 +40,7 @@ class Windows(tk.Tk):
         label.pack(pady=20)
         print('Content loaded successful.')
 
-    def LoadButton(self, text):
+    def LoadButton(self, text, command_func = None):
         button = tk.Button(
             self,
             text=text,
@@ -48,6 +48,7 @@ class Windows(tk.Tk):
             width=10,
             height=2,
             fg="black",
+            command=command_func,
         )
         button.pack(pady=20)
         print('Button loaded successful.')
@@ -96,3 +97,7 @@ class Windows(tk.Tk):
 
     def show_error(self, message):
         messagebox.showerror("Error", message)
+
+    def ClearWindows(self):
+        for widget in self.winfo_children():
+            widget.destroy()
