@@ -12,6 +12,7 @@ class Windows(tk.Tk):
         self.title("Number Bomb")
         self.geometry(f"{self.width}x{self.height}")
 
+
     def LoadIconFiles(self, path):
         try:
             self.iconbitmap(path)
@@ -19,6 +20,7 @@ class Windows(tk.Tk):
             print(f"Warning: Icon not found ({e})")
         else:
             print("Icon loaded successful.")
+
 
     def LoadTitle(self, text):
         label = tk.Label(
@@ -30,6 +32,7 @@ class Windows(tk.Tk):
         label.pack(pady=20)
         print('Title loaded successful.')
 
+
     def LoadContent(self, text):
         label = tk.Label(
             self,
@@ -39,6 +42,7 @@ class Windows(tk.Tk):
         )
         label.pack(pady=20)
         print('Content loaded successful.')
+
 
     def LoadButton(self, text, command_func = None):
         button = tk.Button(
@@ -54,6 +58,7 @@ class Windows(tk.Tk):
         print('Button loaded successful.')
 
         return button
+
 
     def LoadInsert(self, text):
         placeholder = text
@@ -95,8 +100,10 @@ class Windows(tk.Tk):
 
         return entry
 
+
     def show_error(self, message):
         messagebox.showerror("Error", message)
+
 
     def ClearWindows(self):
         for widget in self.winfo_children():

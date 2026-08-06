@@ -32,6 +32,7 @@ class App:
 
         self.windows.LoadButton('Start', command_func=lambda: self.SetGameStatus(2))
 
+
     def GameStart(self):
         self.windows.ClearWindows()
 
@@ -40,6 +41,7 @@ class App:
 
         self.windows.LoadInsert('Guess Number')
 
+
     def GameLoop(self):
         # Window loop
         match self.game_status:
@@ -47,6 +49,7 @@ class App:
                 self.GameMenu()
             case 2:
                 self.GameStart()
+
 
     def Run(self):
         self.GameLoop()
