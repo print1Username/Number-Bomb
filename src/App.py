@@ -8,8 +8,8 @@ class App:
 
         # Number Value
         self.games = Games()
-        self.minimum_number = 0
-        self.maximum_number = 0
+        self.minimum_value = 0
+        self.maximum_value = 0
 
         self.game_status = 1
 
@@ -17,6 +17,23 @@ class App:
 
 
     def SetGameStatus(self, status):
+        # Check user status
+        if status == 2:
+            min_str = self.minimum_input.get()
+            max_str = self.maximum_input.get()
+
+            if not min_str.isdigit() or not max_str.isdigit():
+                self.windows.ShowError("Please enter a valid number.")
+                return
+
+            self.minimum_value = int(min_str)
+            self.maximum_value = int(max_str)
+
+            if self.minimum_value >= self.maximum_value:
+                self.windows.ShowError("The minimum value must be less than the maximum value.")
+                return
+
+
         self.game_status = status
         self.GameLoop()
 
@@ -27,8 +44,8 @@ class App:
         self.windows.LoadTitle('Number Bomb')
         self.windows.LoadContent('This is the Number Bomb game,')
 
-        self.minimum_number = self.windows.LoadInsert('Min')
-        self.maximum_number = self.windows.LoadInsert('Max')
+        self.minimum_input = self.windows.LoadInsert('Min')
+        self.maximum_input = self.windows.LoadInsert('Max')
 
         self.windows.LoadButton('Start', command_func=lambda: self.SetGameStatus(2))
 
@@ -38,6 +55,7 @@ class App:
 
         self.windows.LoadTitle('Guess Number')
         self.windows.LoadContent('Your Number Value:')
+        self.windows.LoadContent(f'Range: {self.minimum_value} to {self.maximum_value}')
 
         self.windows.LoadInsert('Guess Number')
 

@@ -30,7 +30,7 @@ class Windows(tk.Tk):
             fg="black",
         )
         label.pack(pady=20)
-        print('Title loaded successful.')
+        print(f'[{text}] Title loaded successful.')
 
 
     def LoadContent(self, text):
@@ -41,7 +41,7 @@ class Windows(tk.Tk):
             fg="black",
         )
         label.pack(pady=20)
-        print('Content loaded successful.')
+        print(f'[{text:10}] Content loaded successful.')
 
 
     def LoadButton(self, text, command_func = None):
@@ -55,7 +55,7 @@ class Windows(tk.Tk):
             command=command_func,
         )
         button.pack(pady=20)
-        print('Button loaded successful.')
+        print(f'[{text}] Button loaded successful.')
 
         return button
 
@@ -101,7 +101,7 @@ class Windows(tk.Tk):
         return entry
 
 
-    def show_error(self, message):
+    def ShowError(self, message):
         messagebox.showerror("Error", message)
 
 
