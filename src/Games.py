@@ -1,5 +1,6 @@
 import random
 
+
 class Games:
     def __init__(self):
 
@@ -15,6 +16,8 @@ class Games:
         self.chance = 0
 
     def SetNumber(self, minimum, maximum, chance):
+        if minimum < 0 or maximum < 0:
+            raise ValueError('Invalid range')
         if minimum > maximum:
             raise ValueError(f"Minimum {minimum} must be less than maximum {maximum}")
         if chance < 0:
@@ -29,9 +32,12 @@ class Games:
             self.chance = chance
             self.ResetGame()
 
+            print('Value set successfully')
+
 
     def ResetGame(self):
         self.random_number = random.randint(self.minimum, self.maximum)
+        print('Game reset successfully')
 
 
     def CompareNumber(self, number):

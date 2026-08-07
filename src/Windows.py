@@ -40,8 +40,8 @@ class Windows(tk.Tk):
             font=("Arial", 20, "normal"),
             fg="black",
         )
-        label.pack(pady=20)
-        print(f'[{text:10}] Content loaded successful.')
+        label.pack(pady=10)
+        print(f'[{text}] Content loaded successful.')
 
 
     def LoadButton(self, text, command_func = None):
