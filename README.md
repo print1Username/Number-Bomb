@@ -1,5 +1,7 @@
 ﻿# Number Bomb
 
+[![Python Test](https://github.com/print1Username/Number-Bomb/actions/workflows/test.yml/badge.svg)](https://github.com/print1Username/Number-Bomb/actions/workflows/test.yml)
+
 [English](README.md) | [Chinese](README-zh-cn.md)
 
 Number Bomb is a simple Python guessing game with a graphical window. Before the game starts, you choose a number range and the number of chances. Then you try to guess the hidden number before your chances run out.

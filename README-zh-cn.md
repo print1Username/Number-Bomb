@@ -1,5 +1,7 @@
 ﻿# 数字炸弹
 
+[![Python Test](https://github.com/print1Username/Number-Bomb/actions/workflows/test.yml/badge.svg)](https://github.com/print1Username/Number-Bomb/actions/workflows/test.yml)
+
 [English](README.md) | [中文](README-zh-cn.md)
 
 数字炸弹是一个简单的 Python 猜数字小游戏，使用图形窗口运行。游戏开始前，玩家可以选择数字范围和机会次数。之后玩家需要在机会用完之前猜中隐藏数字。
