@@ -11,10 +11,12 @@ class App:
         self.minimum_value = 0
         self.maximum_value = 0
         self.chance_value = 0
+        self.number_value = -1
 
         self.maximum_input = None
         self.minimum_input = None
         self.chance_input = None
+        self.number_input = None
 
         self.game_status = 1
 
@@ -32,12 +34,11 @@ class App:
     def SetGameStatus(self, status):
         # Check user status
         if status == 2:
-            try:
-                self.minimum_value = self.CheckNumberValid(self.minimum_input.get())
-                self.maximum_value = self.CheckNumberValid(self.maximum_input.get())
-                self.chance_value = self.CheckNumberValid(self.chance_input.get())
+            self.minimum_value = self.CheckNumberValid(self.minimum_input.get())
+            self.maximum_value = self.CheckNumberValid(self.maximum_input.get())
+            self.chance_value = self.CheckNumberValid(self.chance_input.get())
 
-            except ValueError:
+            if self.minimum_value < 0 or self.maximum_value < 0 or self.chance_value < 0:
                 return
 
             if self.minimum_value >= self.maximum_value:
@@ -47,6 +48,8 @@ class App:
             if self.chance_value <= 0:
                 self.windows.ShowError("The chance value must be greater than zero.")
                 return
+
+            self.games.SetNumber(self.minimum_value, self.maximum_value, self.chance_value)
 
         self.game_status = status
         self.GameLoop()
@@ -70,18 +73,43 @@ class App:
 
         self.windows.LoadTitle('Guess Number')
         self.windows.LoadContent('Your Number Value:')
-        self.windows.LoadContent(f'range: {self.minimum_value} ~ {self.maximum_value}')
-        self.windows.LoadContent(f'chance: {self.chance_value}')
-
-        self.games.SetNumber(self.minimum_value, self.maximum_value, self.chance_value)
-
-        self.windows.LoadInsert('Guess Number')
-        self.windows.LoadButton('Guess', command_func=lambda: self.NumberDetermination())
+        self.windows.LoadContent(f'range: {self.games.minimum} ~ {self.games.maximum}')
+        self.windows.LoadContent(f'chance: {self.games.chance}')
 
 
-    def NumberDetermination(self):
-        pass
+        self.number_input = self.windows.LoadInsert('Guess Number')
+        self.windows.LoadButton('Guess', command_func=lambda: self.NumberDeterminate())
 
+
+    def NumberDeterminate(self):
+        self.number_value = self.CheckNumberValid(self.number_input.get())
+
+        if self.number_value < 0:
+            return
+
+        if self.number_value < self.games.minimum or self.number_value > self.games.maximum:
+            self.windows.ShowError("The guess number must be within the current range.")
+            return
+
+        result = self.games.CompareNumber(self.number_value)
+
+        match result:
+            case 0:
+                self.windows.ShowInfo('Congratulations, you guessed the number.')
+                self.SetGameStatus(1)
+
+            case 1:
+                self.windows.ShowInfo('Your number is smaller than the random number.')
+
+            case 2:
+                self.windows.ShowInfo('Your number is bigger than the random number.')
+
+        if result != 0:
+            if self.games.chance <= 0:
+                self.windows.ShowInfo('You have no chances left. Game over.')
+                self.SetGameStatus(1)
+            else:
+                self.GameStart()
 
     def GameLoop(self):
         # Window loop

@@ -8,9 +8,6 @@ class Games:
         self.minimum = 0
         self.maximum = 0
 
-        self.minimum_range = 0
-        self.maximum_range = 0
-
         self.random_number = 0
 
         self.chance = 0
@@ -26,9 +23,6 @@ class Games:
             self.minimum = minimum
             self.maximum = maximum
 
-            self.minimum_range = minimum
-            self.maximum_range = maximum
-
             self.chance = chance
             self.ResetGame()
 
@@ -43,7 +37,23 @@ class Games:
     def CompareNumber(self, number):
         if number == self.random_number:
             print('Guess correct')
-        elif number > self.random_number:
-            print('Guess number is bigger than the random number')
+            return 0
+
         elif number < self.random_number:
             print('Guess number is smaller than the random number')
+            self.minimum = number + 1
+            self.chance -= 1
+            return 1
+
+        elif number > self.random_number:
+            print('Guess number is bigger than the random number')
+            self.maximum = number - 1
+            self.chance -= 1
+            return 2
+
+        else:
+            return -1
+
+
+    def PrintNumber(self):
+        return self.minimum, self.maximum, self.chance

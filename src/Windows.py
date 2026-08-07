@@ -101,9 +101,13 @@ class Windows(tk.Tk):
         return entry
 
 
-    def ShowError(self, message):
+    @staticmethod
+    def ShowError(message):
         messagebox.showerror("Error", message)
 
+    @staticmethod
+    def ShowInfo(message):
+        messagebox.showinfo("Info", message)
 
     def ClearWindows(self):
         for widget in self.winfo_children():
