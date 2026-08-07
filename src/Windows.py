@@ -37,7 +37,7 @@ class Windows(tk.Tk):
         label = tk.Label(
             self,
             text=text,
-            font=("Arial", 22, "normal"),
+            font=("Arial", 20, "normal"),
             fg="black",
         )
         label.pack(pady=20)
