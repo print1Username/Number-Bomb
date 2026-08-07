@@ -109,6 +109,63 @@ class Windows(tk.Tk):
     def ShowInfo(message):
         messagebox.showinfo("Info", message)
 
+    def ShowConfirm(self, message):
+        result = {"exit": False}
+        dialog = tk.Toplevel(self)
+        dialog.title("Exit")
+        dialog.geometry("360x180")
+        dialog.resizable(False, False)
+        dialog.transient(self)
+        dialog.grab_set()
+
+        label = tk.Label(
+            dialog,
+            text=message,
+            font=("Arial", 14, "normal"),
+            fg="black",
+            justify="center",
+        )
+        label.pack(pady=25)
+
+        button_frame = tk.Frame(dialog)
+        button_frame.pack(pady=10)
+
+        def choose_yes(event=None):
+            result["exit"] = True
+            dialog.destroy()
+            return "break"
+
+        def choose_no(event=None):
+            result["exit"] = False
+            dialog.destroy()
+            return "break"
+
+        yes_button = tk.Button(
+            button_frame,
+            text="Yes",
+            font=("Arial", 12, "bold"),
+            width=8,
+            command=choose_yes,
+        )
+        yes_button.pack(side="left", padx=10)
+
+        no_button = tk.Button(
+            button_frame,
+            text="No",
+            font=("Arial", 12, "bold"),
+            width=8,
+            command=choose_no,
+        )
+        no_button.pack(side="left", padx=10)
+
+        dialog.bind("<Return>", choose_yes)
+        dialog.bind("<Escape>", choose_no)
+        dialog.protocol("WM_DELETE_WINDOW", choose_no)
+        yes_button.focus_set()
+
+        self.wait_window(dialog)
+        return result["exit"]
+
     def ClearWindows(self):
         for widget in self.winfo_children():
             widget.destroy()

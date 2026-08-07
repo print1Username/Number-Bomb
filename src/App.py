@@ -5,6 +5,8 @@ class App:
     def __init__(self):
         self.windows = Windows()
         self.windows.LoadIconFiles('./assets/icon.ico')
+        self.windows.bind('<Return>', self.HandleEnter)
+        self.windows.bind('<Escape>', self.ConfirmExit)
 
         # Number Value
         self.games = Games()
@@ -18,6 +20,7 @@ class App:
         self.chance_input = None
         self.number_input = None
 
+        self.enter_action = None
         self.game_status = 1
 
         print('Window loaded successful.')
@@ -29,6 +32,23 @@ class App:
             return -1
 
         return int(input_value)
+
+
+    def SetEnterAction(self, command_func):
+        self.enter_action = command_func
+
+
+    def HandleEnter(self, event=None):
+        if self.enter_action is not None:
+            self.enter_action()
+        return 'break'
+
+
+    def ConfirmExit(self, event=None):
+        message = 'Are you sure you want to exit?\nPress Enter to exit, Esc to stay.'
+        if self.windows.ShowConfirm(message):
+            self.windows.destroy()
+        return 'break'
 
 
     def SetGameStatus(self, status):
@@ -65,7 +85,9 @@ class App:
         self.maximum_input = self.windows.LoadInsert('Max value')
         self.chance_input = self.windows.LoadInsert('chance')
 
-        self.windows.LoadButton('Start', command_func=lambda: self.SetGameStatus(2))
+        start_action = lambda: self.SetGameStatus(2)
+        self.SetEnterAction(start_action)
+        self.windows.LoadButton('Start', command_func=start_action)
 
 
     def GameStart(self):
@@ -76,9 +98,11 @@ class App:
         self.windows.LoadContent(f'range: {self.games.minimum} ~ {self.games.maximum}')
         self.windows.LoadContent(f'chance: {self.games.chance}')
 
-
         self.number_input = self.windows.LoadInsert('Guess Number')
-        self.windows.LoadButton('Guess', command_func=lambda: self.NumberDeterminate())
+
+        guess_action = lambda: self.NumberDeterminate()
+        self.SetEnterAction(guess_action)
+        self.windows.LoadButton('Guess', command_func=guess_action)
 
 
     def NumberDeterminate(self):
@@ -95,8 +119,7 @@ class App:
 
         match result:
             case 0:
-                self.windows.ShowInfo('Congratulations, you guessed the number.')
-                self.SetGameStatus(1)
+                self.SetGameStatus(3)
 
             case 1:
                 self.windows.ShowInfo('Your number is smaller than the random number.')
@@ -106,10 +129,34 @@ class App:
 
         if result != 0:
             if self.games.chance <= 0:
-                self.windows.ShowInfo('You have no chances left. Game over.')
-                self.SetGameStatus(1)
+                self.SetGameStatus(4)
             else:
                 self.GameStart()
+
+
+    def GameWin(self):
+        self.windows.ClearWindows()
+
+        self.windows.LoadTitle('Congratulations')
+        self.windows.LoadContent('You guessed the number!')
+        self.windows.LoadContent(f'The correct answer is {self.games.random_number}.')
+
+        back_action = lambda: self.SetGameStatus(1)
+        self.SetEnterAction(back_action)
+        self.windows.LoadButton('Back', command_func=back_action)
+
+
+    def GameLose(self):
+        self.windows.ClearWindows()
+
+        self.windows.LoadTitle('Game Over')
+        self.windows.LoadContent('You did not guess the number.')
+        self.windows.LoadContent(f'The correct answer is {self.games.random_number}.')
+
+        back_action = lambda: self.SetGameStatus(1)
+        self.SetEnterAction(back_action)
+        self.windows.LoadButton('Back', command_func=back_action)
+
 
     def GameLoop(self):
         # Window loop
@@ -118,6 +165,10 @@ class App:
                 self.GameMenu()
             case 2:
                 self.GameStart()
+            case 3:
+                self.GameWin()
+            case 4:
+                self.GameLose()
 
 
     def Run(self):
