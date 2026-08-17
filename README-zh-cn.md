@@ -122,7 +122,7 @@ py -m pip install pyinstaller
 例子：
 
 ```bash
-cd "C:\Users\User\Documents\GitHub\Number Bomb"
+cd "Number Bomb"
 ```
 
 如果你的项目在其他位置，请把路径换成你自己的项目路径。
