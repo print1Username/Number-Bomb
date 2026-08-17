@@ -122,7 +122,7 @@ In the terminal, go to this project folder.
 Example:
 
 ```bash
-cd "C:\Users\User\Documents\GitHub\Number Bomb"
+cd "Number Bomb"
 ```
 
 If your project is in another location, replace the path with your own folder path.
